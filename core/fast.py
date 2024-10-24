@@ -2,9 +2,10 @@ from fastapi import FastAPI, Request
 from . import base, base_read
 from .middleware.TokenAuthMiddleware import TokenAuthMiddleware
 
-# // Initailse fast api app
+# Initailse fast api app
 app = FastAPI()
 
+# Add custom middleware and axcluded path
 excluded_path = ["/docs", "/openapi.json"]
 app.add_middleware(TokenAuthMiddleware, excluded_path=excluded_path)
 

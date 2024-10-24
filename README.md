@@ -4,7 +4,5 @@
 
 ## Features
 - **User-friendly Interface**: Simplified navigation and intuitive design for students with diverse learning needs.
-- **Real-time Communication**: Facilitates communication between students, educators, and caregivers.
-- **Customization**: Personalized learning paths tailored to individual student requirements.
 - **Django Backend**: Manages user authentication, database operations, and admin functionalities.
 - **FastAPI**: Powers real-time features such as chat, notifications, and task management for enhanced responsiveness.
