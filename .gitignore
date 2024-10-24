@@ -1,0 +1,14 @@
+# virtual environment
+venv*
+
+# caches
+*__pycache__/
+
+# environment variables
+*.env
+
+# db files
+*.sqlite3
+
+# media files
+*.txt
