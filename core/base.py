@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import HTMLResponse, Response
 from . import session
 from account.models import CustomUser
 from .session import UserModel, RegisterUser
@@ -48,3 +49,4 @@ def demo(user: RegisterUser):
             return {"items": user}
     except Exception as e:
         return {"error": f"error occurred - {e}"}
+

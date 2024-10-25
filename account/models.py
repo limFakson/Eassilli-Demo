@@ -18,7 +18,9 @@ class UserProfile(models.Model):
     user = models.ForeignKey(
         CustomUser, related_name="profile", null=False, on_delete=models.CASCADE
     )
-    image = models.URLField(null=True)
+    image = models.URLField(
+        null=False, default="void/app/static/130-removebg-preview.png"
+    )
     uid = models.UUIDField(
         primary_key=False, default=uuid.uuid4, editable=False, null=False
     )

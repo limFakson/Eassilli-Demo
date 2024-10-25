@@ -7,7 +7,6 @@ import subprocess, shlex
 
 def main():
     """Run administrative tasks."""
-
     """
     Running command to run faat api cli command
     """
