@@ -2,8 +2,15 @@ from RealtimeTTS import TextToAudioStream, SystemEngine, AzureEngine, Elevenlabs
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Response
 from .session import Speack, ConnectionManager
 from rest_framework.authtoken.models import Token
+from account.models import ChatSystem, Message
 from asgiref.sync import sync_to_async
+import google.generativeai as genai
 import json
+from decouple import config
+
+config_file_path = "../.env"
+
+api_key = config("ModelApiKey")
 
 router = APIRouter()
 
@@ -32,8 +39,12 @@ async def get_user_from_token(token: str):
         return None
 
 
+genai.configure(api_key=api_key)
+gemini = genai.GenerativeModel("gemini-1.5-flash")
+
+
 @router.websocket("/ws/chat")
-async def ChatSystem(websocket: WebSocket, token: str):
+async def chat_system(websocket: WebSocket, token: str):
     if token is None:
         await websocket.close(code=4001)
 
@@ -46,10 +57,29 @@ async def ChatSystem(websocket: WebSocket, token: str):
     # receives and broadcast message on websocket connection
     try:
         while True:
+            chat = gemini.start_chat(history=None)
             data = await websocket.receive_text()
-            stream.feed(data)
-            stream.play_async()
-            await manager.broadcast(f"Client #{user} says: {data}")
+            await manager.send_personal_message(f"You said: {data}", websocket)
+            try:
+                stream.feed(data)
+                stream.play_async()
+            except Exception as e:
+                await manager.broadcast(f"Error occured when reading data")
+                continue
+
+            try:
+                response = chat.send_message(data)
+                try:
+                    stream.feed(response.text)
+                    await manager.broadcast(f"Client model says: {response.text}")
+                    stream.play_async()
+                except Exception as e:
+                    await manager.broadcast(f"Error occured when reading data")
+                    continue
+            except Exception as e:
+                await manager.broadcast(f"Error generating response from model")
+                continue
+
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{user} has left the chat")
