@@ -32,18 +32,24 @@ class Speack(BaseModel):
 
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: list[WebSocket] = []
+        self.active_connections: dict[str, list[WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket, name):
         await websocket.accept()
-        self.active_connections.append(websocket)
+        if name not in self.active_connections:
+            self.active_connections[name] = []
+        self.active_connections[name].append(websocket)
 
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
+    def disconnect(self, websocket: WebSocket, name):
+        self.active_connections[name].remove(websocket)
+        if not self.active_connections[name]:
+            del self.active_connections[name]
 
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
+    async def broadcast(self, message: str, name):
+        for connection in self.active_connections[name]:
             await connection.send_text(message)
 
-    async def send_personal_message(self, message: str, websocket: WebSocket):
-        await websocket.send_text(message)
+    async def send_personal_message(self, message: str, websocket: WebSocket, name: str):
+        if name in self.active_connections:
+            for websocket in self.active_connections[name]:
+                await websocket.send_text(message)

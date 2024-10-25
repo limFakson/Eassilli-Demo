@@ -53,33 +53,33 @@ async def chat_system(websocket: WebSocket, token: str):
     if not user:
         await websocket.close(code=4003)
 
-    await manager.connect(websocket)
+    await manager.connect(websocket, user)
     # receives and broadcast message on websocket connection
     try:
         while True:
             chat = gemini.start_chat(history=None)
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"You said: {data}", websocket)
+            await manager.send_personal_message(f"You said: {data}", websocket, user)
             try:
                 stream.feed(data)
                 stream.play_async()
             except Exception as e:
-                await manager.broadcast(f"Error occured when reading data")
+                await manager.broadcast(f"Error occured when reading data", user)
                 continue
 
             try:
                 response = chat.send_message(data)
                 try:
                     stream.feed(response.text)
-                    await manager.broadcast(f"Client model says: {response.text}")
+                    await manager.broadcast(f"Client model says: {response.text}", user)
                     stream.play_async()
                 except Exception as e:
-                    await manager.broadcast(f"Error occured when reading data")
+                    await manager.broadcast(f"Error occured when reading data", user)
                     continue
             except Exception as e:
-                await manager.broadcast(f"Error generating response from model")
+                await manager.broadcast(f"Error generating response from model", user)
                 continue
 
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
-        await manager.broadcast(f"Client #{user} has left the chat")
+        manager.disconnect(websocket, user)
+        await manager.broadcast(f"Client #{user} has left the chat", user)
