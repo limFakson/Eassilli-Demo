@@ -1,29 +1,53 @@
-{% extends "Base.html" %} {% load static %} 
-{% block title %}Login{% endblock %} {% block content %}
+{% extends "Base.html" %} {% load static %} {% block title %}Login{% endblock %}
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
 <main class="b5">
   <div class="auth-box d-flex justify-content-center align-items-center vh-100">
-    <div class="auth-form d-flex" style="flex-direction:row;">
-        <div class="auth-img">
-          <img
+    <div class="auth-form d-flex" style="flex-direction: row">
+      <div class="auth-img">
+        <img
           src="{% get_media_prefix %}online-college--.jpeg"
           alt="lady studying"
-          />
+        />
+      </div>
+      <form action="">
+        <span class="mb-2">
+          <h2>Sign In</h2>
+        </span>
+        <div class="logo">
+          <img src="{% get_media_prefix %}Asset 4figma2.png" alt="" />
         </div>
-        <form action="">
-          <span>
-              <h2>Sign In</h2>
-          </span>
-          <div class="logo">
-            <img src="{% get_media_prefix %}Asset 4figma2.png" alt="">
-          </div>
-        <div class="register-data row">
-            <input type="text" class="form-control" placeholder="Username or email" name="credential" />
-            <input type="password" class="form-control" placeholder="Password" name="password" />
-            <button type="button" style="margin-top: 10px;">Login</button>
+        <div class="register-data d-grid">
+          <a
+            href=""
+            class="oauth-button custom-input d-flex justify-content-start align-items-center"
+          >
+            <img
+              src="{% get_media_prefix %}Keeping_Up_with_Google__The_One_Blog_to_Rule_Them_All_-removebg-preview.png"
+              alt=""
+            />
+            <p>Continue with Google</p>
+          </a>
+          <p>OR</p>
+          <input
+            type="text"
+            class="custom-input"
+            placeholder="Username or email"
+            name="credential"
+          />
+          <input
+            type="password"
+            class="custom-input"
+            placeholder="Password"
+            name="password"
+          />
+          <button type="button" class="custom-input" style="margin-top: 10px">
+            Login
+          </button>
+          <a href="" class="mt-2 text-end">Forgot Password?</a>
         </div>
         <div class="notice mt-3 d-flex justify-content-center">
-            <p>No account, <a href="">Register</a></p>
+          <p>No account, <a href="">Register</a></p>
         </div>
       </form>
     </div>

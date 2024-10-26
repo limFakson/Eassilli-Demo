@@ -1,8 +1,19 @@
 /* @import url("system.css"); */
 
-.auth-box {
+.register-data p {
+  margin: 10px 0;
+  color: var(--var-text-color);
+  text-align: center;
 }
-
+.auth-box {
+  flex-direction: column;
+}
+button {
+  background-color: var(--var-sec-color) !important;
+  color: var(--var-pri-color) !important;
+  font-weight: 500;
+  text-align: center;
+}
 .auth-form {
   background-color: var(--var-pri-color);
   width: 80%;
@@ -24,6 +35,7 @@
 }
 .auth-form form {
   padding: 30px 20px;
+  margin-top: 10px;
 }
 .auth-form form h2 {
   text-transform: uppercase;
@@ -44,35 +56,37 @@
 }
 .register-data {
   padding: 0 50px;
+  margin-top: 20px;
 }
-.register-data input {
+.custom-input {
   background-color: var(--var-faint-color);
-  margin: 5px 0;
+  margin: 8px 0;
   border: var(--var-faint-color) solid 1px;
   border-radius: 12px;
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
   color: var(--var-text-color);
+  width: 370px;
+  height: 48px;
+  padding-left: 20px;
 }
 .register-data input::placeholder,
 .register-data input:-moz-placeholder,
 .register-data input::-webkit-input-placeholder {
   color: var(--var-bg-color);
 }
-form button {
-  background-color: var(--var-sec-color) !important;
-  /* width: 60%; */
-  border-radius: 12px;
-  border: none;
-  color: var(--var-pri-color);
-  font-weight: 500;
-  text-align: center;
-  margin: 0;
-  padding: 10px;
-}
 .notice {
   color: var(--var-faint-color);
 }
-.notice a {
+a {
   color: var(--var-sec-color);
+}
+.oauth-button {
+  text-decoration: none;
+  width: 300px;
+  gap: 20px;
+  margin: auto;
+}
+.oauth-button img {
+  max-width: 40px;
 }
